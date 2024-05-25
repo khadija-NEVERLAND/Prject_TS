@@ -21,9 +21,12 @@ document.querySelector("button").addEventListener("click", () => {
 });
 
 document.getElementById("click_to_convert").addEventListener('click', function () {
-    window.SpeechRecognition = window.webkitSpeechRecognition;
+    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.interimResults = true;
+
+    // Set the initial language to English (United States)
+    recognition.lang = 'en-US';
 
     recognition.addEventListener('result', e => {
         const transcript = Array.from(e.results)
@@ -35,4 +38,16 @@ document.getElementById("click_to_convert").addEventListener('click', function (
     });
 
     recognition.start();
+
+    // Switch recognition language based on some condition (e.g., user input)
+    // For example, you can switch language when a button is clicked
+    document.getElementById("switch_language_button").addEventListener('click', function () {
+        // Toggle between English and French
+        if (recognition.lang === 'en-US') {
+            recognition.lang = 'fr-FR'; // Switch to French
+        } else {
+            recognition.lang = 'en-US'; // Switch to English
+        }
+    });
 });
+
